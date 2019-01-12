@@ -1,0 +1,38 @@
+
+
+
+#football-form {
+    margin-left: 1100px;
+    margin-top: 25px;
+}
+#gif-input {
+    border: 1px solid black;
+    margin-top: 2px;
+    padding: 5px;
+    padding-right: 85px;
+}
+#add-gif {
+    margin: 10px;
+    background-color: yellow;
+    padding: 10px;
+}
+.main-container {
+    background-color: #efeef0;
+}
+
+.football {
+    margin: 5px;
+    background-color: yellow;
+    padding: 10px;
+}
+
+.gifgif {
+    margin-left: 10px;
+    width: 400px;
+    margin-right: none;
+    float: left;
+}
+
+#gif-label {
+    margin-top: 15px;
+}
