@@ -31,8 +31,27 @@
     width: 400px;
     margin-right: none;
     float: left;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    background-color: rgb(90, 57, 13);
+    color: white;
+    text-align: center;
+    margin-bottom: 10px;
+    padding-top: 20px;
+    font-size: 14px;
 }
 
 #gif-label {
     margin-top: 15px;
 }
+
+.gif {
+    border: 1px solid white;
+}
+
+.clearfix {
+    &::after {
+      display: block;
+      content: "";
+      clear: both;
+    }
+  }

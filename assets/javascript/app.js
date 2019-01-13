@@ -6,7 +6,7 @@ var football = ["Patrick Mahomes", "San Diego Chargers", "Alvin Kamara", "Nick F
  "Philadelphia Eagles", "Kansas City Chiefs", "Indianapolis Colts"]
 
 
-
+// This functon uses the AJAX method to use the API to grab our gif subjects append them on our screen
   function displayGif() {
       var football = $(this).attr("data-name");
       var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
@@ -15,14 +15,15 @@ var football = ["Patrick Mahomes", "San Diego Chargers", "Alvin Kamara", "Nick F
       $.ajax({
           url: queryURL,
           method: "GET"
+
       }).then(function(response){
 
-            console.log(response);
-
+            //this emties the "gif-view" html div
             $("#gif-view").empty();
-
+            console.log(response);
+            //this is where we create our response variable so we can go grab the data
             var results = response.data;
-  
+            //This for loop adds our attributes, and classes to our gifs so that we can access them later, and appends them on in our "gif-view" div
             for (var i = 0; i < results.length; i++) {
               var gifDiv = $("<div>");
   
@@ -31,115 +32,91 @@ var football = ["Patrick Mahomes", "San Diego Chargers", "Alvin Kamara", "Nick F
               gifDiv.addClass("gifgif")
   
               var p = $("<p>").text("Rating: " + rating);
-  
-              var personImage = $("<img>");
 
-              personImage.attr("src", results[i].images.fixed_height_still.url);
-              personImage.attr("data-still", results[i].images.fixed_height_still.url);
-              personImage.attr("data-animate", results[i].images.fixed_height.url);
-              personImage.addClass("pause");  
-              
+              var title = results[i].title;
+
+              var t = $("<p>").text("Title: " + title);
+  
+              var gifImage = $("<img>");
+
+                gifImage.attr("src", results[i].images.fixed_height_still.url);
+              gifImage.attr("data-still", results[i].images.fixed_height_still.url);
+              gifImage.attr("data-animate", results[i].images.fixed_height.url);
+              gifImage.addClass("gif");  
+              gifImage.attr("data-state", "still");              
   
 
-              gifDiv.append(personImage);
+              gifDiv.append(gifImage);
               gifDiv.append(p);
+              gifDiv.append(t);
 
           $("#gif-view").append(gifDiv)
             }
       });
 
-
-
       }
 
 
-
-
-function getFootballGif() {
-
-  // YOUR CODE GOES HERE!!!
-  var footballGif = $(this).attr("data-name");
-
-  alert(footballGif);
-}
-
-// Function for displaying movie data
+// Function is used for displaying gif buttons
 function renderButtons() {
 
-  // Deleting the movies prior to adding new movies
-  // (this is necessary otherwise we will have repeat buttons)
+//First we must empty the buttons div
   $("#buttons-appear").empty();
 
-  // Looping through the array of movies
+  // Then we loop though our topic array
   for (var i = 0; i < football.length; i++) {
 
-    // Then dynamicaly generating buttons for each movie in the array
-    // This code $("<button>") is all jQuery needs to create the beginning and end tag. (<button></button>)
-    var a = $("<button>");
+    // Then dynamicaly generating buttons for each topic in the array
+    //We are adding a new button
+    var addButtons = $("<button>");
     // Adding a class
-    a.addClass("football");
-    //added a attribute still
-    a.attr("data-state", "still");
+    addButtons.addClass("football");
     // Added a data-attribute
-    a.attr("data-name", football[i]);
+    addButtons.attr("data-name", football[i]);
     // Provided the initial button text
-    a.text(football[i]);
+    addButtons.text(football[i]);
     // Added the button to the HTML
-    $("#buttons-appear").append(a);
+    $("#buttons-appear").append(addButtons);
   }
 }
 
-// This function handles events where one button is clicked
+// This function handles events where the submit button is clicked
 $("#add-gif").on("click", function(event) {
   event.preventDefault();
 
   // This line grabs the input from the textbox
   var newFootball = $("#gif-input").val().trim();
 
-  // The movie from the textbox is then added to our array
+  // The word from the textbox is then added to the topics array
   football.push(newFootball);
 
-  // Calling renderButtons which handles the processing of our movie array
+  // Calling renderButtons which handles the processing of our topics array
   renderButtons();
 
 });
 
-function animateGif() {
+// function animateGif() {
 
-$(".pause").on("click", function() {
+$(document.body).on("click", ".gif", function() {
 
     var state = $(this).attr("data-state");
-    console.log(state)
+        console.log(state)
    
-   // =============================================
-
-   // STEP THREE: Check if the variable state is equal to 'still',
+   // Check if the variable state is equal to 'still',
 
      if(state === "still") {
-       $(this).attr("src", $(this).attr("data-animate"));
-         $(this).attr("data-state", "animate");
-     } else 
-       {
-         $(this).attr("src", $(this).attr("data-still"));
-           $(this).attr("data-state", "still");
-       }
-
-    
+      $(this).attr("src", $(this).attr("data-animate"));
+      $(this).attr("data-state", "animate");
+     } else{
+        $(this).attr("src", $(this).attr("data-still"));
+        $(this).attr("data-state", "still");
+       } 
 });
-}
+// }
 
-// Function for displaying the movie info
-// We're adding a click event listener to all elements with the class "movie"
-// We're adding the event listener to the document itself because it will
-// work for dynamically generated elements
-// $(".movies").on("click") will only add listeners to elements that are on the page at that time
+
 $(document).on("click", ".football", displayGif);
-
-$(document.body).on("click", ".pause", animateGif);
-
 
 
 // Calling the renderButtons function to display the intial buttons
 renderButtons();
-
-// &image/original_still
